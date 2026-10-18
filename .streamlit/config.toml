@@ -1,0 +1,5 @@
+# Cấu hình Streamlit cho dự án.
+
+[browser]
+# Tắt gửi thống kê sử dụng ẩn danh (riêng tư hơn, hợp dự án tài chính).
+gatherUsageStats = false
