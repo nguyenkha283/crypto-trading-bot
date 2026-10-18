@@ -38,6 +38,7 @@ và tin tưởng bot. Ngôn ngữ **Python**, chạy **24/7 trên Oracle Free Ti
 - **Bước tiếp theo:** Bước 3 — cho bot đặt lệnh thật trên Testnet (execution + portfolio +
   vòng lặp chính), rồi Bước 4 (lớp giải thích + dashboard + an toàn).
 - **Code đã có:** `bot/exchange`, `bot/data`, `bot/strategy`, `bot/risk`, `backtest/`,
+  `dashboard/app.py` (dashboard backtest Streamlit+Plotly),
   `scripts/check_connection.py`, `scripts/run_backtest.py`, `tests/test_backtest.py`.
 - **Deploy lên Oracle:** làm **sau cùng**, khi code đã chạy ổn trên Testnet.
 

@@ -85,7 +85,7 @@
 
 | Kênh | Mục đích |
 |---|---|
-| **Dashboard (bảng điều khiển web)** | Phân tích, xem báo cáo, đọc lời giải thích. **Phải có bảo mật/mật khẩu**, không mở cổng công khai không bảo vệ. |
+| **Dashboard (bảng điều khiển web)** | Phân tích, xem báo cáo, đọc lời giải thích. **Công nghệ đã chốt: Streamlit + Plotly.** Làm "chế độ backtest" trước (phòng lab nghịch chiến lược), sau mở rộng sang theo dõi bot chạy thật. **Phải có bảo mật/mật khẩu** khi mở ra mạng (giai đoạn chạy cục bộ chưa cần). |
 | **Telegram** | Cảnh báo khẩn: bot chết, chạm giới hạn lỗ, cầu dao ngắt kích hoạt. |
 
 > Nguyên tắc: Dashboard để *phân tích*, Telegram để *báo động* (vì không thể ngồi nhìn dashboard 24/7).

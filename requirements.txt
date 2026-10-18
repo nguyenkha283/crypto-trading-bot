@@ -10,3 +10,7 @@ python-dotenv>=1.0
 
 # Đọc file cấu hình config.yaml
 PyYAML>=6.0
+
+# Dashboard backtest (phòng lab nghịch chiến lược)
+streamlit>=1.30
+plotly>=5.18

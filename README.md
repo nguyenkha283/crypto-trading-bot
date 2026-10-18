@@ -12,8 +12,9 @@ Bot tự động giao dịch tiền mã hóa để **học kiến thức giao d�
 - [x] Tài liệu yêu cầu, kiến trúc, cấu trúc thư mục
 - [x] **Bước 1:** kết nối Binance Testnet + lấy nến
 - [x] **Bước 2:** chiến lược EMA Crossover + backtest
-- [ ] Bước 3: quản lý rủi ro + thực thi lệnh
-- [ ] Bước 4: lớp giải thích + dashboard + an toàn
+- [x] **Dashboard backtest** (phòng lab nghịch chiến lược — Streamlit)
+- [ ] Bước 3: thực thi lệnh trên Testnet + vòng lặp chính
+- [ ] Bước 4: lớp giải thích + dashboard theo dõi bot chạy + an toàn
 
 ---
 
@@ -78,6 +79,18 @@ Muốn kiểm tra nhanh không cần mạng:
 ```bash
 python -m tests.test_backtest
 ```
+
+---
+
+## Dashboard nghịch chiến lược (phòng lab backtest)
+
+Giao diện web để kéo thanh trượt đổi tham số và xem kết quả đổi ngay (biểu đồ giá có
+đánh dấu lệnh, đường vốn, bảng lệnh).
+
+```bash
+streamlit run dashboard/app.py
+```
+Windows có thể bấm đúp `run_dashboard.bat`. Trình duyệt sẽ tự mở ở http://localhost:8501.
 
 ---
 

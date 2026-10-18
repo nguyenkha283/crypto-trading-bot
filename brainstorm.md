@@ -39,18 +39,14 @@
 - **Ước lượng chi phí API** theo tần suất gọi (vào/đóng lệnh + báo cáo). Cần tính thử.
 - **Thiết kế câu lệnh (prompt)** cho LLM để lời giải thích vừa dễ hiểu vừa chính xác, không "bịa" lý do.
 
-## E. Dashboard — đang chờ người dùng chọn công nghệ
+## E. Dashboard — ĐÃ CHỐT công nghệ
 
-Các phương án được tư vấn (chi tiết trong phần trả lời chat):
-- **Streamlit** — nhanh nhất, thuần Python, hợp giai đoạn học. *(đề xuất cho bản đầu)*
-- **FastAPI + giao diện nhẹ** — mạnh hơn, hợp khi lên thật.
-- **Grafana** — biểu đồ giám sát đẹp, nhưng chỉ để xem (không bấm nút điều khiển được).
-
-Lưu ý kiến trúc: dashboard chạy ở tiến trình (process) riêng, tách khỏi bot. Nút dừng khẩn hoạt động bằng cách dashboard ghi "cờ dừng" vào DB/tệp, bot đọc cờ này mỗi vòng lặp.
-
-Còn cần quyết:
-- Chốt framework nào.
-- Có cần biểu đồ nến kèm đánh dấu điểm vào/ra lệnh không? (rất hữu ích để học, nhưng tốn công).
+- ~~Chọn framework~~ → **ĐÃ CHỐT: Streamlit + Plotly** (xem `system_requirements.md`).
+- ~~Biểu đồ nến kèm đánh dấu lệnh~~ → **ĐÃ LÀM** trong dashboard backtest (`dashboard/app.py`).
+- Đã làm "chế độ backtest" trước (phòng lab). Còn lại cho bước 4:
+  - Mở rộng dashboard sang theo dõi bot chạy thật (số dư, vị thế, PnL, lời giải thích).
+  - Nút dừng khẩn (dashboard ghi "cờ dừng" vào DB, bot đọc mỗi vòng lặp).
+  - Thêm mật khẩu khi mở dashboard ra mạng.
 
 ## F. Thư viện dự kiến (cần xác nhận khi dựng code)
 
