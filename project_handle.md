@@ -24,17 +24,19 @@ và tin tưởng bot. Ngôn ngữ **Python**, chạy **24/7 trên Oracle Free Ti
 | `project_handle.md` | **(Tệp này)** Điểm vào — đọc đầu tiên. |
 | `system_requirements.md` | **Nguồn chính thức** — các quyết định ĐÃ CHỐT. |
 | `brainstorm.md` | Ý tưởng CHƯA chốt, cần bàn thêm hoặc để giai đoạn sau. |
+| `ARCHITECTURE.md` | Sơ đồ kiến trúc + cấu trúc thư mục + giải thích thành phần. |
 
 > Quy tắc: khi một ý tưởng ở `brainstorm.md` được chốt → chuyển sang `system_requirements.md`.
 > Mọi thay đổi tài liệu/code đều phải **đẩy lên GitHub**.
 
 ## 3. Trạng thái hiện tại
 
-- **Giai đoạn:** Đang ở bước **lên yêu cầu & thiết kế** (chưa viết code bot).
-- **Đã xong:** Chốt gần hết yêu cầu hệ thống; dựng 3 tài liệu; kết nối GitHub; đã nghiên cứu
-  cách deploy Oracle (học từ repo `kindle-voice`, xem mục 6).
-- **Bước tiếp theo dự kiến:** vẽ **sơ đồ kiến trúc tổng thể + cấu trúc thư mục dự án**, rồi mới
-  dựng khung code (bắt đầu chiến lược EMA Crossover + lớp giải thích).
+- **Giai đoạn:** Xong thiết kế kiến trúc; **chuẩn bị dựng khung code**.
+- **Đã xong:** Chốt gần hết yêu cầu hệ thống; dựng tài liệu; kết nối GitHub; nghiên cứu cách
+  deploy Oracle (học từ repo `kindle-voice`, xem mục 6); **vẽ sơ đồ kiến trúc + cấu trúc thư
+  mục** (xem `ARCHITECTURE.md`).
+- **Bước tiếp theo dự kiến:** dựng khung code theo cấu trúc trong `ARCHITECTURE.md`, bắt đầu
+  chiến lược EMA Crossover + backtest, rồi lớp giải thích.
 - **Deploy lên Oracle:** làm **sau cùng**, khi code đã chạy ổn trên Testnet.
 
 ## 4. Các quyết định lớn đã chốt (tóm tắt — chi tiết ở `system_requirements.md`)
