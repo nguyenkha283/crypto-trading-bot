@@ -1,0 +1,18 @@
+# Môi trường ảo Python
+.venv/
+venv/
+
+# Khóa bí mật — TUYỆT ĐỐI không commit
+.env
+
+# File tạm của Python
+__pycache__/
+*.pyc
+
+# Cơ sở dữ liệu SQLite (dữ liệu chạy, không commit)
+data/*.db
+data/*.sqlite
+
+# Log
+logs/
+*.log
