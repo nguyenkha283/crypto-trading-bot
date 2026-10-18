@@ -54,6 +54,11 @@ và tin tưởng bot. Ngôn ngữ **Python**, chạy **24/7 trên Oracle Free Ti
 - **Độ bền:** tự khởi động lại + heartbeat + khôi phục trạng thái từ DB + công tắc dừng khẩn.
 - **Dữ liệu:** polling (không WebSocket); lưu nến lịch sử vào DB; có phòng lab mô phỏng offline.
 
+## 4b. Môi trường
+
+- **Máy phát triển của người dùng:** Windows (dùng lệnh Windows khi hướng dẫn chạy).
+- **Máy chạy 24/7:** Oracle Free Tier (Linux) — deploy theo mô hình ở mục 6.
+
 ## 5. Quy ước làm việc (cách cộng tác — áp dụng cho mọi phiên)
 
 1. **Hỏi xác nhận các điểm chưa rõ trước khi thực hiện.** Nếu một yêu cầu còn mơ hồ, xác nhận
