@@ -8,6 +8,13 @@ Dùng lại đúng backtester + strategy + risk đã có — không viết lại
 """
 from __future__ import annotations
 
+import os
+import sys
+
+# Cho phép chạy bằng `streamlit run dashboard/app.py`: thêm thư mục gốc dự án vào
+# đường dẫn tìm module, để import được 'bot' và 'backtest' dù chạy từ đâu.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import pandas as pd
 import plotly.graph_objects as go
 
