@@ -13,8 +13,8 @@ Bot tự động giao dịch tiền mã hóa để **học kiến thức giao d�
 - [x] **Bước 1:** kết nối Binance Testnet + lấy nến
 - [x] **Bước 2:** chiến lược EMA Crossover + backtest
 - [x] **Dashboard backtest** (phòng lab nghịch chiến lược — Streamlit)
-- [ ] Bước 3: thực thi lệnh trên Testnet + vòng lặp chính
-- [ ] Bước 4: lớp giải thích + dashboard theo dõi bot chạy + an toàn
+- [x] **Bước 3:** vòng lặp chính + thực thi lệnh (paper/testnet) + lưu & khôi phục trạng thái
+- [ ] Bước 4: lớp giải thích + dashboard theo dõi bot chạy + an toàn đầy đủ
 
 ---
 
@@ -94,7 +94,30 @@ Windows có thể bấm đúp `run_dashboard.bat`. Trình duyệt sẽ tự mở
 
 ---
 
+## Chạy bot (bước 3)
+
+Bot có 2 chế độ (đặt trong `config/config.yaml`, mục `execution.mode`):
+- **`paper`** *(mặc định)* — mô phỏng, KHÔNG đặt lệnh thật. Chạy xem bot cư xử trước.
+- **`testnet`** — đặt lệnh THẬT trên Binance Testnet (tiền ảo). Cần điền khóa trong `.env`.
+
+Chạy vòng lặp:
+```bash
+python -m bot.main
+```
+Bot sẽ: mỗi 60 giây lấy nến → ra tín hiệu → kiểm rủi ro & cầu dao ngắt → mở/đóng lệnh →
+lưu trạng thái vào `data/bot.db`. Nhấn `Ctrl+C` để dừng. Khởi động lại sẽ đọc lại trạng thái cũ.
+
+Dừng khẩn (đóng mọi lệnh rồi dừng ở chu kỳ kế tiếp):
+```bash
+python -m scripts.killswitch on     # bật;  off = tắt;  status = xem trạng thái
+```
+
+Kiểm thử logic (không cần mạng):
+```bash
+python -m tests.test_live_logic
+```
+
 ## Cấu hình
 
-Mọi tham số (cặp coin, khung thời gian, ngưỡng rủi ro...) nằm trong `config/config.yaml`.
-Không cần sửa code để đổi tham số.
+Mọi tham số (cặp coin, khung thời gian, ngưỡng rủi ro, chế độ chạy...) nằm trong
+`config/config.yaml`. Không cần sửa code để đổi tham số.

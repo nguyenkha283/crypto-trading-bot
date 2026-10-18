@@ -27,6 +27,26 @@ class BaseExchange(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    def fetch_last_price(self, symbol: str) -> float:
+        """Lấy giá khớp gần nhất của một cặp (dùng để kiểm SL/TP)."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def create_market_order(self, symbol: str, side: str, amount: float) -> dict:
+        """Đặt lệnh thị trường (side = 'buy' hoặc 'sell'). Trả về thông tin lệnh đã khớp."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def round_amount(self, symbol: str, amount: float) -> float:
+        """Làm tròn khối lượng theo đúng độ chính xác sàn yêu cầu."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def min_cost(self, symbol: str) -> float:
+        """Giá trị lệnh tối thiểu sàn cho phép (minNotional), để không bị từ chối lệnh."""
+        raise NotImplementedError
+
+    @abstractmethod
     def describe(self) -> str:
         """Mô tả ngắn sàn đang kết nối (để in ra cho dễ hiểu)."""
         raise NotImplementedError

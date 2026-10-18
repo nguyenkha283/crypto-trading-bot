@@ -41,3 +41,15 @@ backtest:
 storage:
   backend: sqlite            # sqlite (học) hoặc supabase (khi lên thật)
   sqlite_path: data/bot.db
+
+execution:
+  mode: paper                # paper (mô phỏng, KHÔNG đặt lệnh thật) hoặc testnet (đặt lệnh thật trên testnet)
+
+run:
+  poll_interval_seconds: 60  # mỗi vòng lặp cách nhau bao lâu
+  initial_capital: 10000     # vốn khởi điểm cho mô hình rủi ro (paper: vốn ảo; testnet: đặt xấp xỉ số dư ảo của bạn)
+
+logging:
+  path: logs/bot.log
+  max_bytes: 5000000         # mỗi tệp log tối đa ~5MB rồi tự xoay vòng
+  backup_count: 3            # giữ lại 3 tệp log cũ

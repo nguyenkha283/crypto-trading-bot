@@ -33,13 +33,19 @@ và tin tưởng bot. Ngôn ngữ **Python**, chạy **24/7 trên Oracle Free Ti
 
 - **Giai đoạn:** Đang viết code theo lộ trình 4 bước (xem README).
 - **Đã xong:** Tài liệu + kiến trúc; kết nối GitHub; nghiên cứu deploy Oracle;
-  **Bước 1** (kết nối Testnet + lấy nến — đã chạy OK trên máy người dùng);
-  **Bước 2** (chiến lược EMA Crossover + quản lý rủi ro + backtester + báo cáo — đã kiểm thử).
-- **Bước tiếp theo:** Bước 3 — cho bot đặt lệnh thật trên Testnet (execution + portfolio +
-  vòng lặp chính), rồi Bước 4 (lớp giải thích + dashboard + an toàn).
-- **Code đã có:** `bot/exchange`, `bot/data`, `bot/strategy`, `bot/risk`, `backtest/`,
-  `dashboard/app.py` (dashboard backtest Streamlit+Plotly),
-  `scripts/check_connection.py`, `scripts/run_backtest.py`, `tests/test_backtest.py`.
+  **Bước 1** (kết nối Testnet + lấy nến — chạy OK trên máy người dùng);
+  **Bước 2** (EMA Crossover + rủi ro + backtester + báo cáo — đã kiểm thử);
+  **Dashboard backtest** (Streamlit+Plotly — chạy OK trên máy người dùng);
+  **Bước 3** (vòng lặp chính + thực thi paper/testnet + lưu & khôi phục trạng thái +
+  cầu dao ngắt + cờ dừng khẩn + log xoay vòng — đã kiểm thử logic).
+- **Bước tiếp theo:** Bước 4 — lớp giải thích (OpenAI) + mở rộng dashboard sang theo dõi
+  bot chạy + heartbeat/an toàn đầy đủ. Sau đó: deploy Oracle.
+- **Quyết định bước 3:** mặc định chế độ `paper` (mô phỏng) cho an toàn; đổi `execution.mode`
+  sang `testnet` trong config để đặt lệnh thật. SL/TP quản lý trong vòng lặp (kiểm mỗi chu kỳ
+  theo giá hiện tại) — hạn chế: có khe hở giá giữa 2 lần polling (chấp nhận được với khung 1h/4h).
+- **Code đã có:** `bot/` (exchange, data, strategy, risk, execution, storage, utils, main.py),
+  `backtest/`, `dashboard/app.py`, `scripts/` (check_connection, run_backtest, killswitch),
+  `tests/` (test_backtest, test_live_logic).
 - **Deploy lên Oracle:** làm **sau cùng**, khi code đã chạy ổn trên Testnet.
 
 ## 4. Các quyết định lớn đã chốt (tóm tắt — chi tiết ở `system_requirements.md`)
