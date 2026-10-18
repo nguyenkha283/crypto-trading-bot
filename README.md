@@ -11,7 +11,7 @@ Bot tự động giao dịch tiền mã hóa để **học kiến thức giao d�
 
 - [x] Tài liệu yêu cầu, kiến trúc, cấu trúc thư mục
 - [x] **Bước 1:** kết nối Binance Testnet + lấy nến
-- [ ] Bước 2: chiến lược EMA Crossover + backtest
+- [x] **Bước 2:** chiến lược EMA Crossover + backtest
 - [ ] Bước 3: quản lý rủi ro + thực thi lệnh
 - [ ] Bước 4: lớp giải thích + dashboard + an toàn
 
@@ -62,6 +62,22 @@ python -m scripts.check_connection
 ```
 
 Nếu thấy giá BTC/USDT (và số dư nếu đã điền khóa) in ra → kết nối OK.
+
+---
+
+## Chạy backtest (bước 2)
+
+Sau khi đã cài thư viện như trên, chạy:
+```bash
+python -m scripts.run_backtest
+```
+Script lấy nến lịch sử, chạy chiến lược EMA Crossover và in báo cáo (lợi nhuận, tỷ lệ
+thắng, sụt vốn tối đa...) kèm giải thích ý nghĩa từng con số. Lấy nến không cần khóa API.
+
+Muốn kiểm tra nhanh không cần mạng:
+```bash
+python -m tests.test_backtest
+```
 
 ---
 

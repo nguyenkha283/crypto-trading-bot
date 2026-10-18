@@ -31,12 +31,14 @@ và tin tưởng bot. Ngôn ngữ **Python**, chạy **24/7 trên Oracle Free Ti
 
 ## 3. Trạng thái hiện tại
 
-- **Giai đoạn:** Xong thiết kế kiến trúc; **chuẩn bị dựng khung code**.
-- **Đã xong:** Chốt gần hết yêu cầu hệ thống; dựng tài liệu; kết nối GitHub; nghiên cứu cách
-  deploy Oracle (học từ repo `kindle-voice`, xem mục 6); **vẽ sơ đồ kiến trúc + cấu trúc thư
-  mục** (xem `ARCHITECTURE.md`).
-- **Bước tiếp theo dự kiến:** dựng khung code theo cấu trúc trong `ARCHITECTURE.md`, bắt đầu
-  chiến lược EMA Crossover + backtest, rồi lớp giải thích.
+- **Giai đoạn:** Đang viết code theo lộ trình 4 bước (xem README).
+- **Đã xong:** Tài liệu + kiến trúc; kết nối GitHub; nghiên cứu deploy Oracle;
+  **Bước 1** (kết nối Testnet + lấy nến — đã chạy OK trên máy người dùng);
+  **Bước 2** (chiến lược EMA Crossover + quản lý rủi ro + backtester + báo cáo — đã kiểm thử).
+- **Bước tiếp theo:** Bước 3 — cho bot đặt lệnh thật trên Testnet (execution + portfolio +
+  vòng lặp chính), rồi Bước 4 (lớp giải thích + dashboard + an toàn).
+- **Code đã có:** `bot/exchange`, `bot/data`, `bot/strategy`, `bot/risk`, `backtest/`,
+  `scripts/check_connection.py`, `scripts/run_backtest.py`, `tests/test_backtest.py`.
 - **Deploy lên Oracle:** làm **sau cùng**, khi code đã chạy ổn trên Testnet.
 
 ## 4. Các quyết định lớn đã chốt (tóm tắt — chi tiết ở `system_requirements.md`)
