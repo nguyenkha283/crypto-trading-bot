@@ -31,7 +31,7 @@ và tin tưởng bot. Ngôn ngữ **Python**, chạy **24/7 trên Oracle Free Ti
 
 ## 3. Trạng thái hiện tại
 
-- **Giai đoạn:** XONG cả 4 bước code. Còn lại: deploy Oracle + Telegram.
+- **Giai đoạn:** XONG cả 4 bước code + đã dựng xong phần deploy Oracle. Còn lại: Telegram.
 - **Đã xong:** Tài liệu + kiến trúc; kết nối GitHub; nghiên cứu deploy Oracle;
   **Bước 1** (kết nối Testnet + lấy nến — chạy OK trên máy người dùng);
   **Bước 2** (EMA Crossover + rủi ro + backtester + báo cáo — đã kiểm thử);
@@ -98,6 +98,16 @@ này sẽ **tái sử dụng đúng mô hình này** (đã kiểm chứng, ít r
 
 > Khác biệt cần lưu ý: `kindle-voice` là web server chạy theo yêu cầu; bot giao dịch là tiến
 > trình chạy liên tục — nhưng cùng mô hình venv + systemd + Actions là dùng được.
+
+**ĐÃ DỰNG XONG phần deploy** (xem `deploy/README.md`):
+- Chạy chung VM với kindle-voice; truy cập dashboard qua **Tailscale** (mạng riêng, không mở
+  cổng ra Internet — thay cho phương án mật khẩu/nginx).
+- `deploy/install.sh`: tự dò user/path, tạo venv, sinh 2 dịch vụ systemd (`crypto-bot`,
+  `crypto-dashboard`), bật và khởi động.
+- `.github/workflows/deploy.yml`: push main → SSH vào Oracle (qua IP công khai, như
+  kindle-voice) → pull + cài + restart 2 dịch vụ.
+- Secrets GitHub cần: `ORACLE_HOST`, `ORACLE_USER`, `ORACLE_SSH_KEY` (dùng lại của kindle-voice).
+- Dashboard bind 0.0.0.0:8501 nhưng chỉ vào được qua Tailscale IP (100.x).
 
 ## 7. Việc đang mở / cần quyết tiếp
 

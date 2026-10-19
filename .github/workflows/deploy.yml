@@ -1,0 +1,25 @@
+name: Deploy to Oracle
+
+# Mỗi khi đẩy code lên nhánh main -> tự động cập nhật bot trên máy Oracle.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # cho phép bấm chạy tay trên GitHub
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy qua SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.ORACLE_HOST }}
+          username: ${{ secrets.ORACLE_USER }}
+          key: ${{ secrets.ORACLE_SSH_KEY }}
+          script: |
+            set -e
+            cd ~/crypto-trading-bot
+            git pull origin main
+            ./.venv/bin/pip install -q -r requirements.txt || true
+            sudo systemctl restart crypto-bot crypto-dashboard
+            echo "Da deploy xong: bot + dashboard."

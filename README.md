@@ -15,7 +15,8 @@ Bot tự động giao dịch tiền mã hóa để **học kiến thức giao d�
 - [x] **Dashboard backtest** (phòng lab nghịch chiến lược — Streamlit)
 - [x] **Bước 3:** vòng lặp chính + thực thi lệnh (paper/testnet) + lưu & khôi phục trạng thái
 - [x] **Bước 4:** lớp giải thích (OpenAI + fallback mẫu) + dashboard theo dõi bot chạy
-- [ ] Tiếp theo: deploy lên Oracle (chạy 24/7) + Telegram cảnh báo
+- [x] **Deploy Oracle:** tệp cài đặt + systemd + GitHub Actions (xem `deploy/README.md`)
+- [ ] Tiếp theo: Telegram cảnh báo
 
 ---
 
