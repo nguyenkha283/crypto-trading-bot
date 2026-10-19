@@ -14,7 +14,8 @@ Bot tự động giao dịch tiền mã hóa để **học kiến thức giao d�
 - [x] **Bước 2:** chiến lược EMA Crossover + backtest
 - [x] **Dashboard backtest** (phòng lab nghịch chiến lược — Streamlit)
 - [x] **Bước 3:** vòng lặp chính + thực thi lệnh (paper/testnet) + lưu & khôi phục trạng thái
-- [ ] Bước 4: lớp giải thích + dashboard theo dõi bot chạy + an toàn đầy đủ
+- [x] **Bước 4:** lớp giải thích (OpenAI + fallback mẫu) + dashboard theo dõi bot chạy
+- [ ] Tiếp theo: deploy lên Oracle (chạy 24/7) + Telegram cảnh báo
 
 ---
 
@@ -116,6 +117,18 @@ Kiểm thử logic (không cần mạng):
 ```bash
 python -m tests.test_live_logic
 ```
+
+## Lời giải thích của bot (bước 4)
+
+Mỗi khi mở/đóng lệnh, bot sinh một **lời giải thích dễ hiểu** (vì sao vào/ra, bài học).
+- Có `OPENAI_API_KEY` trong `.env` → dùng OpenAI viết lời giải thích tự nhiên.
+- Không có khóa (hoặc OpenAI lỗi) → tự dùng **khuôn mẫu** có sẵn (không cần mạng).
+
+LLM **chỉ giải thích**, không quyết định giao dịch. Lời giải thích hiện ở tab "Theo dõi Bot"
+trên dashboard. Bật/tắt và đổi model trong `config/config.yaml` mục `explain`.
+
+Dashboard giờ có 2 tab: **Phòng Lab Backtest** (nghịch chiến lược) và **Theo dõi Bot**
+(vốn, lệnh đang mở, lịch sử, lời giải thích, nút dừng khẩn).
 
 ## Cấu hình
 

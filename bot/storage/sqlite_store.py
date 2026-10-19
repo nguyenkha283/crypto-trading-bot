@@ -36,6 +36,17 @@ class SQLiteStore:
                 entry_time TEXT, exit_time TEXT
             )""")
         c.execute("CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT)")
+        c.execute("""
+            CREATE TABLE IF NOT EXISTS explanations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                created_at TEXT,
+                event_type TEXT,          -- 'open' / 'close'
+                pair TEXT,
+                facts TEXT,               -- dữ kiện thô (JSON) để sinh giải thích
+                text TEXT,                -- lời giải thích (rỗng = đang chờ xử lý)
+                source TEXT,              -- 'llm' / 'template' / '' (chưa xong)
+                status TEXT               -- 'pending' / 'done'
+            )""")
         self.conn.commit()
 
     # --- Vị thế ---
@@ -69,6 +80,36 @@ class SQLiteStore:
     def load_trades(self, limit: int = 100) -> list[dict]:
         rows = self.conn.execute(
             "SELECT * FROM trades ORDER BY id DESC LIMIT ?", (limit,)
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+    # --- Lời giải thích ---
+    def enqueue_explanation(self, event_type: str, pair: str, facts_json: str) -> int:
+        """Thêm một yêu cầu giải thích vào hàng chờ (chưa có lời giải thích). Trả về id."""
+        cur = self.conn.execute(
+            "INSERT INTO explanations (created_at, event_type, pair, facts, text, source, status) "
+            "VALUES (datetime('now'), ?, ?, ?, '', '', 'pending')",
+            (event_type, pair, facts_json),
+        )
+        self.conn.commit()
+        return int(cur.lastrowid)
+
+    def fetch_pending_explanations(self, limit: int = 5) -> list[dict]:
+        rows = self.conn.execute(
+            "SELECT * FROM explanations WHERE status='pending' ORDER BY id ASC LIMIT ?", (limit,)
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+    def complete_explanation(self, exp_id: int, text: str, source: str) -> None:
+        self.conn.execute(
+            "UPDATE explanations SET text=?, source=?, status='done' WHERE id=?",
+            (text, source, exp_id),
+        )
+        self.conn.commit()
+
+    def load_explanations(self, limit: int = 50) -> list[dict]:
+        rows = self.conn.execute(
+            "SELECT * FROM explanations WHERE status='done' ORDER BY id DESC LIMIT ?", (limit,)
         ).fetchall()
         return [dict(r) for r in rows]
 

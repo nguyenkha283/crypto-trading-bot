@@ -21,6 +21,7 @@ from bot.data.market_data import get_candles
 from bot.exchange.binance_exchange import create_exchange
 from bot.execution.order_manager import OrderManager
 from bot.execution.portfolio import Portfolio, Position
+from bot.explain.explainer import Explainer
 from bot.risk.circuit_breakers import CircuitBreakers
 from bot.risk.risk_manager import RiskManager
 from bot.storage.sqlite_store import create_store
@@ -57,6 +58,7 @@ class Bot:
         self.portfolio.load_from_store(self.store)
 
         self.breakers = CircuitBreakers(config["risk"], self.store, self._capital())
+        self.explainer = Explainer(self.store, config)
         self._halt_logged = False
 
         self.log.info("Bot khởi động | sàn=%s | chế độ=%s | vốn=%.2f | vị thế đang giữ=%d",
@@ -103,6 +105,11 @@ class Bot:
         self.breakers.on_trade_closed(pnl > 0, new_cap)
         self.log.info("ĐÓNG %s (%s) | lãi/lỗ %.2f USDT | vốn mới %.2f",
                       pos.pair, reason, pnl, new_cap)
+        self.explainer.enqueue("close", pos.pair, {
+            "pair": pos.pair, "entry_price": pos.entry_price, "exit_price": exit_price,
+            "pnl": round(pnl, 2), "reason": reason, "had_plan": True,
+            "ema_fast": self.cfg["strategy"]["ema_fast"], "ema_slow": self.cfg["strategy"]["ema_slow"],
+        })
 
     def _open_position(self, pair: str, price: float) -> None:
         plan = self.risk.plan_long(entry_price=price, capital=self._capital())
@@ -123,6 +130,12 @@ class Bot:
         self.portfolio.open(pos, self.store)
         self.log.info("MỞ %s | vào %.2f | SL %.2f | TP %.2f | R:R %.1f",
                       pair, fill, pos.stop_loss, pos.take_profit, plan2.rr)
+        self.explainer.enqueue("open", pair, {
+            "pair": pair, "entry_price": fill, "stop_loss": pos.stop_loss,
+            "take_profit": pos.take_profit, "rr": plan2.rr,
+            "risk_pct": self.cfg["risk"]["risk_per_trade"] * 100,
+            "ema_fast": self.cfg["strategy"]["ema_fast"], "ema_slow": self.cfg["strategy"]["ema_slow"],
+        })
 
     # ------------------- một chu kỳ -------------------
     def run_cycle(self) -> None:
@@ -173,6 +186,7 @@ class Bot:
     def run_forever(self) -> None:
         interval = int(self.cfg["run"].get("poll_interval_seconds", 60))
         self.log.info("Bắt đầu vòng lặp, mỗi %d giây một chu kỳ. Nhấn Ctrl+C để dừng.", interval)
+        self.explainer.start()
         try:
             while True:
                 try:
@@ -184,6 +198,8 @@ class Bot:
                 time.sleep(interval)
         except KeyboardInterrupt:
             self.log.info("Đã dừng bot.")
+        finally:
+            self.explainer.stop()
 
 
 def main() -> None:

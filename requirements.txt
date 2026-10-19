@@ -14,3 +14,6 @@ PyYAML>=6.0
 # Dashboard backtest (phòng lab nghịch chiến lược)
 streamlit>=1.30
 plotly>=5.18
+
+# Lớp giải thích bằng OpenAI (bỏ qua được nếu chỉ dùng khuôn mẫu)
+openai>=1.40

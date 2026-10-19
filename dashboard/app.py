@@ -109,16 +109,10 @@ def trades_to_df(trades) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-# ------------------------------------- Giao diện -------------------------------------
+# ------------------------------------- Các tab giao diện -------------------------------------
 
-def main() -> None:
-    import streamlit as st
-
-    st.set_page_config(page_title="Phòng Lab Backtest", page_icon="📈", layout="wide")
-    st.title("📈 Phòng Lab Backtest — nghịch chiến lược")
+def render_backtest_tab(st, config) -> None:
     st.caption("Đổi tham số bên trái rồi xem kết quả đổi theo. Lấy nến không cần khóa API.")
-
-    config = load_config()
 
     @st.cache_data(ttl=300, show_spinner=False)
     def load_candles(pair: str, timeframe: str, limit: int) -> pd.DataFrame:
@@ -146,7 +140,7 @@ def main() -> None:
 
     if ema_fast >= ema_slow:
         st.error("EMA nhanh phải NHỎ HƠN EMA chậm. Chỉnh lại bên trái.")
-        st.stop()
+        return
 
     min_rr = float(config["risk"].get("min_rr", 1.5))
     if tp_rr < min_rr:
@@ -160,7 +154,7 @@ def main() -> None:
     except Exception as e:  # noqa: BLE001
         st.error(f"Không lấy được nến: {e}")
         st.info("Kiểm tra mạng rồi thử lại (testnet đôi khi bận).")
-        st.stop()
+        return
 
     # --- Chạy backtest (dùng lại code đã có) ---
     strat = EMACrossover(ema_fast=ema_fast, ema_slow=ema_slow)
@@ -209,6 +203,87 @@ def main() -> None:
             "- Hãy thử đổi khung thời gian (1h ↔ 4h) và cặp coin để thấy chiến lược "
             "hợp điều kiện nào."
         )
+
+
+def render_live_tab(st, config) -> None:
+    """Tab theo dõi bot đang chạy: đọc trạng thái từ cơ sở dữ liệu (SQLite)."""
+    from bot.storage.sqlite_store import create_store
+
+    st.caption("Theo dõi bot đang chạy. Dữ liệu đọc từ cơ sở dữ liệu bot ghi ra.")
+
+    try:
+        store = create_store(config)
+    except Exception as e:  # noqa: BLE001
+        st.error(f"Không mở được cơ sở dữ liệu: {e}")
+        return
+
+    # Chưa có dữ liệu nghĩa là bot chưa chạy lần nào.
+    if store.get_meta("capital") is None:
+        st.info("Chưa có dữ liệu. Hãy chạy bot (`python -m bot.main`) ít nhất một lần.")
+        return
+
+    col = st.columns([1, 1, 1, 2])
+    capital = float(store.get_meta("capital", "0"))
+    col[0].metric("Vốn hiện tại", f"{capital:,.2f} USDT")
+    positions = store.load_open_positions()
+    col[1].metric("Lệnh đang mở", len(positions))
+    hb = store.get_meta("last_heartbeat")
+    col[2].metric("Điểm danh gần nhất", hb.split("T")[-1] if hb else "—")
+    ks_on = store.get_meta("kill_switch", "0") == "1"
+    col[3].metric("Cờ dừng khẩn", "ĐANG BẬT ⛔" if ks_on else "đang tắt")
+
+    # Nút dừng khẩn: ghi cờ vào DB, bot đọc ở chu kỳ kế tiếp.
+    b1, b2 = st.columns(2)
+    if b1.button("⛔ BẬT dừng khẩn (đóng mọi lệnh)", use_container_width=True):
+        store.set_meta("kill_switch", "1")
+        st.rerun()
+    if b2.button("Tắt dừng khẩn", use_container_width=True):
+        store.set_meta("kill_switch", "0")
+        st.rerun()
+
+    st.subheader("Lệnh đang mở")
+    if positions:
+        st.dataframe(pd.DataFrame(positions), use_container_width=True, hide_index=True)
+    else:
+        st.info("Không có lệnh nào đang mở.")
+
+    st.subheader("Lời giải thích của bot")
+    explanations = store.load_explanations(limit=30)
+    if explanations:
+        for ex in explanations:
+            tag = "🤖 AI" if ex["source"] == "llm" else "📝 Mẫu"
+            with st.expander(f"{ex['created_at']} · {ex['event_type'].upper()} {ex['pair']} · {tag}"):
+                st.markdown(ex["text"])
+    else:
+        st.info("Chưa có lời giải thích nào (bot chưa mở/đóng lệnh, hoặc đang xử lý).")
+
+    st.subheader("Lịch sử lệnh đã đóng")
+    trades = store.load_trades(limit=50)
+    if trades:
+        df = pd.DataFrame(trades)[
+            ["pair", "entry_price", "exit_price", "pnl", "reason", "is_win", "exit_time"]
+        ]
+        df.columns = ["Cặp", "Giá vào", "Giá ra", "Lãi/Lỗ", "Lý do", "Thắng(1)", "Đóng lúc"]
+        st.dataframe(df, use_container_width=True, hide_index=True)
+    else:
+        st.info("Chưa có lệnh nào đóng.")
+
+    st.caption("💡 Mẹo: bật 'Auto refresh' của trình duyệt, hoặc bấm R để tải lại xem số mới nhất.")
+
+
+def main() -> None:
+    import streamlit as st
+
+    st.set_page_config(page_title="Bot Giao Dịch — Dashboard", page_icon="📈", layout="wide")
+    config = load_config()
+
+    tab_bt, tab_live = st.tabs(["📊 Phòng Lab Backtest", "🤖 Theo dõi Bot"])
+    with tab_bt:
+        st.title("📊 Phòng Lab Backtest — nghịch chiến lược")
+        render_backtest_tab(st, config)
+    with tab_live:
+        st.title("🤖 Theo dõi Bot đang chạy")
+        render_live_tab(st, config)
 
 
 if __name__ == "__main__":

@@ -33,11 +33,15 @@
 - Nếu dùng đòn bẩy: **tối đa 2x–3x cho người mới**, không phải 10x.
 - Cân nhắc cho coin trend/meme — nhưng nhớ: bot kỹ thuật yếu trên meme coin.
 
-## D. Lớp Giải thích bằng LLM — còn lại cần quyết
+## D. Lớp Giải thích bằng LLM — ĐÃ LÀM (bước 4)
 
-- ~~Chọn nhà cung cấp LLM nào?~~ → **ĐÃ CHỐT: OpenAI cho giai đoạn demo** (xem `system_requirements.md`). Khi lên thật có thể đổi.
-- **Ước lượng chi phí API** theo tần suất gọi (vào/đóng lệnh + báo cáo). Cần tính thử.
-- **Thiết kế câu lệnh (prompt)** cho LLM để lời giải thích vừa dễ hiểu vừa chính xác, không "bịa" lý do.
+- ~~Chọn nhà cung cấp~~ → **OpenAI, model mặc định `gpt-4o-mini`** (đổi trong config `explain`).
+- ~~Thiết kế prompt~~ → **ĐÃ LÀM** trong `bot/explain/llm_openai.py` (có luật sắt: chỉ diễn giải,
+  không quyết định, không bịa số liệu). Fallback template trong `bot/explain/templates.py`.
+- Còn lại cần làm dần:
+  - **Ước lượng chi phí API** thực tế theo tần suất mở/đóng lệnh (chưa đo).
+  - **Báo cáo định kỳ** (tuần/tháng) tổng hợp chỉ số + giải thích (mục A) — chưa làm.
+  - Chế độ giải thích khi KHÔNG vào lệnh (mục A) — chưa làm.
 
 ## E. Dashboard — ĐÃ CHỐT công nghệ
 

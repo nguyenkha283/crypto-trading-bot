@@ -31,21 +31,26 @@ và tin tưởng bot. Ngôn ngữ **Python**, chạy **24/7 trên Oracle Free Ti
 
 ## 3. Trạng thái hiện tại
 
-- **Giai đoạn:** Đang viết code theo lộ trình 4 bước (xem README).
+- **Giai đoạn:** XONG cả 4 bước code. Còn lại: deploy Oracle + Telegram.
 - **Đã xong:** Tài liệu + kiến trúc; kết nối GitHub; nghiên cứu deploy Oracle;
   **Bước 1** (kết nối Testnet + lấy nến — chạy OK trên máy người dùng);
   **Bước 2** (EMA Crossover + rủi ro + backtester + báo cáo — đã kiểm thử);
   **Dashboard backtest** (Streamlit+Plotly — chạy OK trên máy người dùng);
   **Bước 3** (vòng lặp chính + thực thi paper/testnet + lưu & khôi phục trạng thái +
-  cầu dao ngắt + cờ dừng khẩn + log xoay vòng — đã kiểm thử logic).
-- **Bước tiếp theo:** Bước 4 — lớp giải thích (OpenAI) + mở rộng dashboard sang theo dõi
-  bot chạy + heartbeat/an toàn đầy đủ. Sau đó: deploy Oracle.
+  cầu dao ngắt + cờ dừng khẩn + log xoay vòng — đã kiểm thử logic);
+  **Bước 4** (lớp giải thích OpenAI + fallback mẫu, chạy luồng nền tách khỏi giao dịch;
+  dashboard thêm tab "Theo dõi Bot": vốn, lệnh mở, lịch sử, lời giải thích, nút dừng khẩn —
+  đã kiểm thử logic).
+- **Bước tiếp theo:** Deploy lên Oracle (venv + systemd + GitHub Actions, học từ kindle-voice
+  — xem mục 6); sau đó Telegram cảnh báo. Người dùng cần tham gia: tạo VM, thêm secrets SSH +
+  API key (xem mục 6).
 - **Quyết định bước 3:** mặc định chế độ `paper` (mô phỏng) cho an toàn; đổi `execution.mode`
   sang `testnet` trong config để đặt lệnh thật. SL/TP quản lý trong vòng lặp (kiểm mỗi chu kỳ
   theo giá hiện tại) — hạn chế: có khe hở giá giữa 2 lần polling (chấp nhận được với khung 1h/4h).
-- **Code đã có:** `bot/` (exchange, data, strategy, risk, execution, storage, utils, main.py),
-  `backtest/`, `dashboard/app.py`, `scripts/` (check_connection, run_backtest, killswitch),
-  `tests/` (test_backtest, test_live_logic).
+- **Code đã có:** `bot/` (exchange, data, strategy, risk, execution, storage, explain, utils,
+  main.py), `backtest/`, `dashboard/app.py` (2 tab: backtest + theo dõi bot),
+  `scripts/` (check_connection, run_backtest, killswitch),
+  `tests/` (test_backtest, test_live_logic, test_explainer).
 - **Deploy lên Oracle:** làm **sau cùng**, khi code đã chạy ổn trên Testnet.
 
 ## 4. Các quyết định lớn đã chốt (tóm tắt — chi tiết ở `system_requirements.md`)

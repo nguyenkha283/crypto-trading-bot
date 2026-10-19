@@ -45,6 +45,11 @@ storage:
 execution:
   mode: paper                # paper (mô phỏng, KHÔNG đặt lệnh thật) hoặc testnet (đặt lệnh thật trên testnet)
 
+explain:
+  use_llm: true              # true = dùng OpenAI viết lời giải thích; false = chỉ dùng khuôn mẫu
+  model: gpt-4o-mini         # model OpenAI (rẻ, đủ tốt cho việc diễn giải)
+  worker_poll_seconds: 5     # luồng nền kiểm hàng chờ mỗi bao lâu
+
 run:
   poll_interval_seconds: 60  # mỗi vòng lặp cách nhau bao lâu
   initial_capital: 10000     # vốn khởi điểm cho mô hình rủi ro (paper: vốn ảo; testnet: đặt xấp xỉ số dư ảo của bạn)

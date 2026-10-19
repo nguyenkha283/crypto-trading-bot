@@ -32,6 +32,7 @@ def load_config(config_path: str | None = None) -> dict:
     config["secrets"] = {
         "binance_api_key": os.getenv("BINANCE_API_KEY", ""),
         "binance_api_secret": os.getenv("BINANCE_API_SECRET", ""),
+        "openai_api_key": os.getenv("OPENAI_API_KEY", ""),
     }
     return config
 
