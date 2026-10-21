@@ -15,8 +15,9 @@ class SQLiteStore:
     def __init__(self, path: str = "data/bot.db"):
         os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
         self.path = path
-        self.conn = sqlite3.connect(path)
+        self.conn = sqlite3.connect(path, check_same_thread=False, timeout=30)
         self.conn.row_factory = sqlite3.Row
+        self.conn.execute("PRAGMA journal_mode=WAL")
         self._create_tables()
 
     def _create_tables(self) -> None:
