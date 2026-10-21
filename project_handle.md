@@ -31,7 +31,8 @@ và tin tưởng bot. Ngôn ngữ **Python**, chạy **24/7 trên Oracle Free Ti
 
 ## 3. Trạng thái hiện tại
 
-- **Giai đoạn:** XONG cả 4 bước code + đã dựng xong phần deploy Oracle. Còn lại: Telegram.
+- **Giai đoạn:** ĐÃ DEPLOY — bot chạy 24/7 trên Oracle, dashboard xem qua Tailscale
+  (HTTPS qua Tailscale Serve). Đang chuyển trọng tâm sang **cải thiện chiến lược giao dịch**.
 - **Đã xong:** Tài liệu + kiến trúc; kết nối GitHub; nghiên cứu deploy Oracle;
   **Bước 1** (kết nối Testnet + lấy nến — chạy OK trên máy người dùng);
   **Bước 2** (EMA Crossover + rủi ro + backtester + báo cáo — đã kiểm thử);
