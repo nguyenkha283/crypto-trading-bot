@@ -19,7 +19,10 @@ jobs:
           script: |
             set -e
             cd ~/crypto-trading-bot
-            git pull origin main
+            # Đồng bộ ĐÚNG y hệt repo (nguồn duy nhất). reset --hard tránh kẹt vì
+            # chỉnh sửa tay trên server. KHÔNG đụng .env, data/, logs/ (đều gitignore).
+            git fetch origin main
+            git reset --hard origin/main
             ./.venv/bin/pip install -q -r requirements.txt || true
             sudo systemctl restart crypto-bot crypto-dashboard
             echo "Da deploy xong: bot + dashboard."
