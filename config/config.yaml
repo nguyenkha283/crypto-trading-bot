@@ -11,7 +11,7 @@ market:
     - BTC/USDT
     - ETH/USDT
     - SOL/USDT
-  timeframe: 5m          # LƯU Ý: 5m = lướt sóng, nhiều nhiễu & phí; 1h/4h khuyến nghị khi giao dịch thật
+  timeframe: 1h          # LƯU Ý: 5m = lướt sóng, nhiều nhiễu & phí; 1h/4h khuyến nghị khi giao dịch thật
   candles_limit: 200     # số nến lấy mỗi lần (đủ để tính chỉ báo)
 
 # --- Các phần dưới đây để dành cho bước sau, chưa dùng ở bước 1 ---
