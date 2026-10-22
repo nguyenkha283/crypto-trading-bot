@@ -26,7 +26,7 @@ from bot.risk.circuit_breakers import CircuitBreakers
 from bot.risk.risk_manager import RiskManager
 from bot.storage.sqlite_store import create_store
 from bot.strategy.base import SIGNAL_BUY, SIGNAL_EXIT
-from bot.strategy.ema_crossover import EMACrossover
+from bot.strategy.ema_crossover import build_from_config as build_strategy
 from bot.utils.logging_setup import setup_logging
 
 
@@ -37,10 +37,7 @@ class Bot:
 
         self.exchange = create_exchange(config)
         self.store = create_store(config)
-        self.strategy = EMACrossover(
-            ema_fast=config["strategy"]["ema_fast"],
-            ema_slow=config["strategy"]["ema_slow"],
-        )
+        self.strategy = build_strategy(config["strategy"])
         self.risk = RiskManager(config["risk"])
         self.order = OrderManager(self.exchange, mode=config["execution"]["mode"])
         self.portfolio = Portfolio()

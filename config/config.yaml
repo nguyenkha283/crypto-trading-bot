@@ -20,6 +20,8 @@ strategy:
   name: ema_crossover
   ema_fast: 9
   ema_slow: 21
+  trend_filter: true         # bật bộ lọc xu hướng: chỉ mua khi giá trên EMA dài
+  trend_ema: 200             # chu kỳ EMA dài dùng làm bộ lọc
 
 risk:
   risk_per_trade: 0.01       # rủi ro 1% vốn mỗi lệnh

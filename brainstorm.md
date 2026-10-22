@@ -17,6 +17,16 @@
   - Lợi nhuận tổng sau phí
 - **Report "nghịch lý" làm công cụ dạy**: cố ý làm nổi bật các lệnh "thua nhưng quyết định đúng" và "thắng nhưng quyết định sai" để rèn tư duy xác suất.
 
+## B0. Cải thiện chiến lược — ĐÃ LÀM / đang theo đuổi
+
+- **Chẩn đoán từ report thật:** đa số lệnh đóng bằng "cross" (EMA cắt xuống) → bệnh whipsaw:
+  vào quá nhiều lệnh chất lượng kém khi thị trường đi ngang → lỗ vặt + phí.
+- **ĐÃ THÊM: bộ lọc xu hướng** (chỉ mua khi giá trên EMA dài, vd 200) — bật/tắt trong config
+  và trên dashboard. Nhắm đúng điểm yếu đầu vào. Người dùng tự so sánh có/không lọc.
+- **Lever tiếp theo (chưa làm):** "để lãi chạy" — trailing stop / TP rộng hơn, để vài cú trend
+  lớn bù cho nhiều lệnh lỗ nhỏ (bản chất trend-following: win rate thấp nhưng R lớn ở lệnh thắng).
+- **Nguyên tắc:** sửa MỘT thứ, so sánh trên cùng dữ liệu; kiểm out-of-sample để tránh overfit.
+
 ## B. Chiến lược tương lai (sau EMA Crossover + Grid)
 
 - **MACD** — phiên bản tinh vi hơn của giao cắt đường trung bình.

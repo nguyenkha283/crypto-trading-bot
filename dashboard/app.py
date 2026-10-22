@@ -48,6 +48,9 @@ def build_price_fig(data: pd.DataFrame, trades, fast_n: int, slow_n: int) -> go.
                              name=f"EMA {fast_n}", line=dict(color=C_FAST, width=1)))
     fig.add_trace(go.Scatter(x=data["datetime"], y=data["ema_slow"],
                              name=f"EMA {slow_n}", line=dict(color=C_SLOW, width=1)))
+    if "ema_trend" in data.columns:
+        fig.add_trace(go.Scatter(x=data["datetime"], y=data["ema_trend"],
+                                 name="EMA xu hướng", line=dict(color="#888780", width=1, dash="dot")))
 
     if trades:
         fig.add_trace(go.Scatter(
@@ -131,6 +134,11 @@ def render_backtest_tab(st, config) -> None:
     sb.subheader("Chiến lược EMA")
     ema_fast = sb.slider("EMA nhanh", 3, 50, int(config["strategy"]["ema_fast"]))
     ema_slow = sb.slider("EMA chậm", 5, 200, int(config["strategy"]["ema_slow"]))
+    use_trend = sb.checkbox("Bật bộ lọc xu hướng (chỉ mua khi giá trên EMA dài)",
+                            value=bool(config["strategy"].get("trend_filter", False)))
+    trend_ema = sb.slider("EMA dài (bộ lọc)", 50, 300,
+                          int(config["strategy"].get("trend_ema", 200)), step=10,
+                          disabled=not use_trend)
 
     sb.subheader("Rủi ro")
     sl_pct = sb.slider("Cắt lỗ (%)", 0.5, 10.0, float(config["risk"]["stop_loss_pct"]) * 100, step=0.5) / 100
@@ -157,7 +165,8 @@ def render_backtest_tab(st, config) -> None:
         return
 
     # --- Chạy backtest (dùng lại code đã có) ---
-    strat = EMACrossover(ema_fast=ema_fast, ema_slow=ema_slow)
+    strat = EMACrossover(ema_fast=ema_fast, ema_slow=ema_slow,
+                         trend_ema=trend_ema if use_trend else None)
     risk_cfg = dict(config["risk"])
     risk_cfg["stop_loss_pct"] = sl_pct
     risk_cfg["take_profit_rr"] = tp_rr

@@ -12,7 +12,7 @@ from bot.config_loader import load_config
 from bot.data.market_data import get_candles
 from bot.exchange.binance_exchange import create_exchange
 from bot.risk.risk_manager import RiskManager
-from bot.strategy.ema_crossover import EMACrossover
+from bot.strategy.ema_crossover import build_from_config as build_strategy
 from backtest.backtester import run_backtest
 
 
@@ -78,10 +78,7 @@ def main() -> None:
         return
     print(f"✓ Có {len(df)} nến (từ {df['datetime'].iloc[0]} đến {df['datetime'].iloc[-1]}).")
 
-    strat = EMACrossover(
-        ema_fast=config["strategy"]["ema_fast"],
-        ema_slow=config["strategy"]["ema_slow"],
-    )
+    strat = build_strategy(config["strategy"])
     risk = RiskManager(config["risk"])
     result = run_backtest(
         df,
