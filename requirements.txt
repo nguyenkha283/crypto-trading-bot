@@ -1,19 +1,2 @@
-# Kết nối sàn (một cú pháp cho nhiều sàn, đổi testnet/thật dễ)
-ccxt>=4.0
-
-# Xử lý dữ liệu nến & tính chỉ báo
-pandas>=2.0
-numpy>=1.24
-
-# Đọc biến môi trường từ tệp .env (để không ghi khóa vào code)
-python-dotenv>=1.0
-
-# Đọc file cấu hình config.yaml
-PyYAML>=6.0
-
-# Dashboard backtest (phòng lab nghịch chiến lược)
-streamlit>=1.30
-plotly>=5.18
-
-# Lớp giải thích bằng OpenAI (bỏ qua được nếu chỉ dùng khuôn mẫu)
-openai>=1.40
+# Thư viện Python của bot. deploy/install.sh cài tệp này mỗi lần deploy.
+# Bot mới chưa có code; thêm thư viện khi bắt đầu từng user story.
